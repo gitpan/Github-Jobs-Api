@@ -118,7 +118,7 @@ __END__
 
  You can find documentation for this module with the perldoc command.
 
- perldoc Google::Shopping
+ perldoc Github::Jobs::Api
 
 
  You can also look for information at: https://github.com/ovntatar/Github-Jobs-API
