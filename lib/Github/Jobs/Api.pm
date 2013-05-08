@@ -30,15 +30,14 @@ has  'browser'		=> (is => 'rw', isa => 'LWP::UserAgent', default => sub { return
 
 around BUILDARGS => sub
 {
- my $orig  = shift;
- my $class = shift;
- if (@_ == 1 && ! ref $_[0])
- {
-  return $class->$orig(description => $_[1]);
- }
- else {
-  return $class->$orig(@_);
- }
+	my $orig  = shift;
+	my $class = shift;
+	if (@_ == 1 && ! ref $_[0])
+	{
+	  	return $class->$orig(description => $_[1]);
+ 	}  else {
+		  return $class->$orig(@_);
+ 	}
 };
 
 sub BUILD
@@ -49,21 +48,21 @@ sub BUILD
 
 sub search
 {
- my $self    = shift;
- my ($browser, $url, $request, $response, $content);
- $browser   = $self->browser;
- $url	= sprintf("%s?description=%s", $BASE_URL, $self->description);
- $url	.= sprintf("&full_time=%s", $self->full_time) if $self->full_time;
- $url	.= sprintf("&location=%s", $self->location) if $self->location;
- $url	.= sprintf("&lat=%s", $self->lat) if $self->lat;
- $url	.= sprintf("&long=%s", $self->long) if $self->long;
- $request  = HTTP::Request->new(GET => $url);
- $response = $browser->request($request);
+	my $self    = shift;
+	my ($browser, $url, $request, $response, $content);
+	$browser   = $self->browser;
+	$url	= sprintf("%s?description=%s", $BASE_URL, $self->description);
+	$url	.= sprintf("&full_time=%s", $self->full_time) if $self->full_time;
+	$url	.= sprintf("&location=%s", $self->location) if $self->location;
+	$url	.= sprintf("&lat=%s", $self->lat) if $self->lat;
+	$url	.= sprintf("&long=%s", $self->long) if $self->long;
+	$request  = HTTP::Request->new(GET => $url);
+	$response = $browser->request($request);
 
- croak("ERROR: Couldn't fetch data [$url]:[".$response->status_line."]\n") unless $response->is_success;
- $content  = $response->content;
- croak("ERROR: No data found.\n") unless defined $content;
- return $content;
+	croak("ERROR: Couldn't fetch data [$url]:[".$response->status_line."]\n") unless $response->is_success;
+	$content  = $response->content;
+	croak("ERROR: No data found.\n") unless defined $content;
+	return $content;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -80,30 +79,29 @@ __END__
 
  GitHub Jobs API - interface to GitHub Jobs API!
 
- =head1 VERSION
+=head1 VERSION
 
   Version 0.01
 
-  =head1 SYNOPSIS
+=head1 SYNOPSIS
 
    Google::Shopping - The GitHub Jobs API allows you to search, view, and create jobs with JSON over HTTP.
 
-   use strict;
-use warnings;
-use Data::Dumper;
-use JSON::XS;
+	use strict;
+	use warnings;
+	use Data::Dumper;
+	use JSON::XS;
 
-my $q ='perl';
-my $str = Github::Jobs::Api->new(description=>$q);
-my $get_v = $str->search();
+	my $q ='perl';
+	my $str = Github::Jobs::Api->new(description=>$q);
+	my $get_v = $str->search();
 
-#print Dumper($get_v);
-my $decoded = JSON::XS::decode_json($get_v);
-foreach my $items(@ {$decoded})
-{
-    print $items-> {title} . "----";
-    print $items-> {company} . "\n";
-}
+	my $decoded = JSON::XS::decode_json($get_v);
+	foreach my $items(@ {$decoded})
+	{
+    		print $items-> {title} . "----";
+    		print $items-> {company} . "\n";
+	}
 
 
 
@@ -112,9 +110,9 @@ foreach my $items(@ {$decoded})
 
  Ovidiu Nita Tatar, C<< <ovn.tatar at gmail.com> >>
 
- =head1 BUGS
+=head1 BUGS
 
-  Please report any bugs or feature requests to: https://github.com/ovntatar/GoogleShopping/issues
+  Please report any bugs or feature requests to: https://github.com/ovntatar/Github-Jobs-API/issues
 
 =head1 SUPPORT
 
@@ -123,19 +121,18 @@ foreach my $items(@ {$decoded})
  perldoc Google::Shopping
 
 
- You can also look for information at: https://github.com/ovntatar/GoogleShopping
+ You can also look for information at: https://github.com/ovntatar/Github-Jobs-API
 
- or on the Google official api documnetation site: https://developers.google.com/shopping-search/v1/getting_started#filters
+ or on the Google official api documnetation site: 
+	
+	https://jobs.github.com/api
 
 
-     =head1 ACKNOWLEDGEMENTS
+=head1 LICENSE AND COPYRIGHT
 
+Copyright 2013 Ovidiu Nita Tatar.
 
-      =head1 LICENSE AND COPYRIGHT
-
-       Copyright 2013 Ovidiu Nita Tatar.
-
-       This program is free software; you can redistribute it and/or modify it
+This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
 by the Free Software Foundation; or the Artistic License.
 
